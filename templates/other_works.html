@@ -1,0 +1,10 @@
+{% include "header.html" %}
+
+<body>
+    <div>
+    {% for work in works %}
+        <img src="{{ work['poster_path'] }}"/>
+        <h3>{{ work['original_title'] }} : {{ work['character'] }} : {{ work['release_date'] }} : {{ work['overview'] }}</h3>
+    {% endfor %}
+    </div>
+</body>

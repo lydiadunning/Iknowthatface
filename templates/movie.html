@@ -1,0 +1,11 @@
+{% include "header.html" %}
+
+<body>
+    <h1>Movie Differentiation</h1>
+    {% for work in works %}
+        <a href="{{ url_for('cast_list', work_id=work['id']) }}">
+            <img src='{{work["poster"]}}'/>
+            <h3>{{work["original_title"]}} : {{work["release_date"]}} : {{work["overview"]}}</h3>
+        </a>
+    {% endfor %}
+</body>

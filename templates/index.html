@@ -1,0 +1,12 @@
+{% include "header.html" %}
+
+<body>
+    <header>
+        <form action="{{ url_for('work_input') }}" method="post">
+            <label>Film or Series</label>
+            <input type="text" name="work" placeholder="Movie Show">
+            <button type="submit">Submit</button>
+        </form>
+    </header>
+
+</body>

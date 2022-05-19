@@ -1,0 +1,12 @@
+{% include "header.html" %}
+
+<body>
+    <div>
+    {% for cast_member in cast %}
+        <a href="{{ url_for('other_works', person_id=cast_member['id']) }}">
+            <img src="{{ cast_member['image_url'] }}"/>
+            <h3>{{ cast_member['name'] }} : {{ cast_member['character'] }}</h3>
+        </a>
+    {% endfor %}
+    </div>
+</body>
