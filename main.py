@@ -1,5 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, request, flash
 from viewed import Viewed
+from TMDB_access import TMDB
 
 # Basic use sequence:
 # Input a movie or series name.
@@ -35,6 +36,7 @@ app = Flask(__name__)
 # Replace with a real secret key.
 app.secret_key = '1818181818181818'
 
+works = TMDB()
 viewed_works = Viewed()
 
 @app.route('/')
@@ -44,7 +46,7 @@ def index():
 @app.route('/work_input', methods=["GET", "POST"])
 def work_input():
     work_name = request.form["work"]
-    works_found = list_works_by_name(work_name)
+    works_found = TMDB.list_works_by_name(work_name)
     if works_found:
         return render_template("movie.html", works=works_found, work_name=None)
     else:
@@ -54,11 +56,11 @@ def work_input():
 @app.route('/cast_list/<medium>/<work_id>', methods=["GET", "POST"])
 def cast_list(medium, work_id):
 
-    return render_template("cast.html", cast=list_actors_with_images(medium, work_id))
+    return render_template("cast.html", cast=TMDB.list_actors_with_images(medium, work_id))
 
 @app.route('/other_works/<person_id>', methods=["GET", "POST"])
 def other_works(person_id):
-    return render_template("other_works.html", works=list_actors_other_works(person_id))
+    return render_template("other_works.html", works=TMDB.list_actors_other_works(person_id))
 
 @app.route('/viewed/<medium>/<work_id>')
 def viewed(medium, work_id):
