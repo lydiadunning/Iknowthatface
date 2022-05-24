@@ -2,9 +2,17 @@
 
 <body>
     <div>
-    {% for work in works %}
-        <img src="{{ work['poster_path'] }}"/>
-        <h3>{{ work['original_title'] }} : {{ work['character'] }} : {{ work['release_date'] }} : {{ work['overview'] }}</h3>
+    {% for work in works['movie'] %}
+        <a href="{{ url_for('cast_list', medium='movie', work_id=work['id']) }}">
+            <img src='{{work["poster"]}}'/>
+            <h3>{{work["original_title"]}} {{ work['character'] }} : : {{work["release_date"]}} : {{work["overview"]}}</h3>
+        </a>
+    {% endfor %}
+    {% for work in works['tv'] %}
+        <a href="{{ url_for('cast_list', medium='tv', work_id=work['id']) }}">
+            <img src='{{work["poster"]}}'/>
+            <h3>{{work["name"]}} {{ work['character'] }} : : {{work["first_air_date"]}} : {{work["overview"]}}</h3>
+        </a>
     {% endfor %}
     </div>
 </body>

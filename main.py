@@ -1,14 +1,5 @@
 from flask import Flask, render_template, redirect, url_for, request, flash
-import requests
-import os
-from dotenv import load_dotenv
-
-load_dotenv()
-
-API_KEY = os.getenv('SECRET_KEY')
-# the way I handle the api key in this code is a mess, revisit.
-
-IMAGE_PREFIX = 'https://www.themoviedb.org/t/p/w220_and_h330_face'
+from viewed import Viewed
 
 # Basic use sequence:
 # Input a movie or series name.
@@ -25,92 +16,13 @@ IMAGE_PREFIX = 'https://www.themoviedb.org/t/p/w220_and_h330_face'
 # I haven't added any "i've seen this" functionality at all, which was part of my original vision for this project.
 # As good a choice as any. API interface -> basic web functionality -> refine API interface is a good start.
 # fix secret key to identify session
+# refactor api request functions into a class
+# pull out formatting for api data
 
 
-
-
-
-def send_TMDB_api_request(api_request, params=None):
-    if params:
-        response = requests.get(api_request, params=params)
-    else:
-        response = requests.get(api_request)
-    response.raise_for_status()
-    return response.json()
-
-
-def list_works_by_name(work_name):
-    key = API_KEY
-    movie_api_request = f"https://api.themoviedb.org/3/search/movie?api_key={key}"
-    tv_api_request = f"https://api.themoviedb.org/3/search/tv?api_key={key}"
-    params = {
-        'query': work_name,
-        'include_adult': 'false',
-        'page': '1'
-    }
-    movie_response = send_TMDB_api_request(movie_api_request, params)["results"]
-    tv_response = send_TMDB_api_request(tv_api_request, params)["results"]
-    result = {}
-    if movie_response:
-        result['movie'] = [{
-            'id': movie['id'],
-            'original_title': movie['original_title'],
-            'poster': f"{IMAGE_PREFIX}{movie['poster_path']}",
-            'release_date': movie['release_date'],
-            'overview': movie['overview']
-        } for movie in movie_response]
-    if tv_response:
-        result['tv'] = [{
-            'id': tv['id'],
-            'name': tv['name'],
-            'poster': f"{IMAGE_PREFIX}{tv['poster_path']}",
-            'first_air_date': tv['first_air_date'],
-            'overview': tv['overview']
-        } for tv in tv_response]
-    return result
-
-def list_actors_with_images(medium, work_id):
-    # medium is a string, either 'tv' or 'movie
-    key = API_KEY
-    api_request = f"https://api.themoviedb.org/3/{medium}/{work_id}/credits?api_key={key}&language=en-US"
-    cast_list = send_TMDB_api_request(api_request)['cast']
-    return [{
-        'id': cast_member['id'],
-        'name': cast_member['name'],
-        'character': cast_member['character'],
-        'image_url': f"{IMAGE_PREFIX}{cast_member['profile_path']}"
-    } for cast_member in cast_list if cast_member['known_for_department'] == 'Acting']
-
-
-
-def list_actors_other_works(person_id):
-    key = API_KEY
-    movie_api_request = f"https://api.themoviedb.org/3/person/{person_id}/movie_credits?api_key={key}&language=en-US"
-    tv_api_request = f"https://api.themoviedb.org/3/person/{person_id}/tv_credits?api_key={key}&language=en-US"
-    other_movies = send_TMDB_api_request(movie_api_request)['cast']
-    other_tv = send_TMDB_api_request(tv_api_request)['cast']
-    result = {}
-    if other_movies:
-        print(other_movies)
-        result['movie'] = [{
-            'id': movie['id'],
-            'original_title': movie['original_title'],
-            'poster': f"{IMAGE_PREFIX}{movie['poster_path']}",
-            'release_date': movie['release_date'],
-            'overview': movie['overview']
-        } for movie in other_movies]
-    if other_tv:
-        print(other_tv)
-        result['tv'] = [{
-            'id': tv['id'],
-            'name': tv['name'],
-            'poster': f"{IMAGE_PREFIX}{tv['poster_path']}",
-            'first_air_date': tv['first_air_date'],
-            'overview': tv['overview']
-        } for tv in other_tv]
-    return result
-
-
+# add "I've seen this" functionality for a single user
+# use a simple data structure, list or dict
+# embed access in functions or class methods
 
 
 
@@ -122,6 +34,8 @@ app = Flask(__name__)
 # the following secret key is a placeholder to bypass an error.
 # Replace with a real secret key.
 app.secret_key = '1818181818181818'
+
+viewed_works = Viewed()
 
 @app.route('/')
 def index():
@@ -145,6 +59,11 @@ def cast_list(medium, work_id):
 @app.route('/other_works/<person_id>', methods=["GET", "POST"])
 def other_works(person_id):
     return render_template("other_works.html", works=list_actors_other_works(person_id))
+
+@app.route('/viewed/<medium>/<work_id>')
+def viewed(medium, work_id):
+    viewed_works.add_new(medium, work_id)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
