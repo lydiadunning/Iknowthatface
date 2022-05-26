@@ -37,7 +37,7 @@ app = Flask(__name__)
 app.secret_key = '1818181818181818'
 
 works = TMDB()
-viewed_works = Viewed()
+
 
 @app.route('/')
 def index():
@@ -46,7 +46,8 @@ def index():
 @app.route('/work_input', methods=["GET", "POST"])
 def work_input():
     work_name = request.form["work"]
-    works_found = TMDB.list_works_by_name(work_name)
+    works_found = works.list_works_by_name(work_name)
+    print(works_found)
     if works_found:
         return render_template("movie.html", works=works_found, work_name=None)
     else:
@@ -56,15 +57,17 @@ def work_input():
 @app.route('/cast_list/<medium>/<work_id>', methods=["GET", "POST"])
 def cast_list(medium, work_id):
 
-    return render_template("cast.html", cast=TMDB.list_actors_with_images(medium, work_id))
+    return render_template("cast.html", cast=works.list_actors_with_images(medium, work_id))
 
 @app.route('/other_works/<person_id>', methods=["GET", "POST"])
 def other_works(person_id):
-    return render_template("other_works.html", works=TMDB.list_actors_other_works(person_id))
+    return render_template("other_works.html", works=works.list_actors_other_works(person_id), person_id=person_id)
 
-@app.route('/viewed/<medium>/<work_id>')
-def viewed(medium, work_id):
-    viewed_works.add_new(medium, work_id)
+@app.route('/viewed/<medium>/<work_id>/<person_id>')
+def viewed(medium, work_id, person_id):
+    works.viewed.add_new(medium, work_id)
+    print(f'add {work_id} to viewed works')
+    return redirect(url_for('other_works', person_id=person_id))
 
 
 if __name__ == '__main__':

@@ -1,17 +1,45 @@
 {% include "header.html" %}
 
 <body>
-    <h1>Movie Differentiation</h1>
-    {% for work in works['movie'] %}
-        <a href="{{ url_for('cast_list', medium='movie', work_id=work['id']) }}">
-            <img src='{{work["poster"]}}'/>
-            <h3>{{work["original_title"]}} : {{work["release_date"]}} : {{work["overview"]}}</h3>
-        </a>
-    {% endfor %}
-    {% for work in works['tv'] %}
-        <a href="{{ url_for('cast_list', medium='tv', work_id=work['id']) }}">
-            <img src='{{work["poster"]}}'/>
-            <h3>{{work["original_title"]}} : {{work["release_date"]}} : {{work["overview"]}}</h3>
-        </a>
-    {% endfor %}
+    <h1>What are you watching?</h1>
+    <div class="columncontainer">
+        <div class="movie results">
+            <h2>Movies</h2>
+            {% for work in works['movie'] %}
+            <div class="list-item">
+                <a href="{{ url_for('cast_list', medium='movie', work_id=work['id']) }}">
+                <div class="primary">
+                    <h3>{{work["original_title"]}}</h3>
+                    <img class="poster" src='{{work["poster"]}}'/>
+                </div>
+                </a>
+                <div class="secondary">
+                    <h3>Released {{work["release_date"]}}</h3>
+                    <p>{{work["overview"]}}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="tv results">
+            <h2>TV</h2>
+            {% for work in works['tv'] %}
+            <div class="list-item">
+
+                <div class="primary">
+                    <a href="{{ url_for('cast_list', medium='tv', work_id=work['id']) }}">
+                    <h3>{{work["name"]}}</h3>
+                    <img class="poster" src='{{work["poster"]}}'/>
+                    </a>
+                </div>
+                <div class="secondary">
+                    <h3>First Aired {{work["first_air_date"]}}</h3>
+                    <p>{{work["overview"]}}</p>
+                </div>
+
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% include "footer.html" %}
+
 </body>

@@ -1,13 +1,11 @@
 {% include "header.html" %}
 
 <body>
-    <header>
-        <form action="{{ url_for('work_input') }}" method="post">
-            <label>Film or Series</label>
-            <input type="text" name="work" placeholder="Movie Show">
-            <button type="submit">Submit</button>
-        </form>
-    </header>
+    <form action="{{ url_for('work_input') }}" method="post">
+        <label><h1>What are you watching?</h1></label>
+        <input type="text" name="work" placeholder="Movie Show">
+        <button type="submit">Submit</button>
+    </form>
     {% with messages = get_flashed_messages() %}
       {% if messages %}
         <ul class=flashes>
@@ -17,5 +15,6 @@
         </ul>
       {% endif %}
     {% endwith %}
+{% include "footer.html" %}
 
 </body>

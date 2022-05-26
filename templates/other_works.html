@@ -1,18 +1,48 @@
 {% include "header.html" %}
 
+
 <body>
-    <div>
-    {% for work in works['movie'] %}
-        <a href="{{ url_for('cast_list', medium='movie', work_id=work['id']) }}">
-            <img src='{{work["poster"]}}'/>
-            <h3>{{work["original_title"]}} {{ work['character'] }} : : {{work["release_date"]}} : {{work["overview"]}}</h3>
-        </a>
-    {% endfor %}
-    {% for work in works['tv'] %}
-        <a href="{{ url_for('cast_list', medium='tv', work_id=work['id']) }}">
-            <img src='{{work["poster"]}}'/>
-            <h3>{{work["name"]}} {{ work['character'] }} : : {{work["first_air_date"]}} : {{work["overview"]}}</h3>
-        </a>
-    {% endfor %}
+    <h1>They were also in:</h1>
+    <div class="columncontainer">
+        <div class="movie results">
+            <h2>Movies</h2>
+            {% for work in works['movie'] %}
+                <div class="list-item">
+                    <div class="primary">
+                        <a href="{{ url_for('viewed', medium='movie', work_id=work['id'], person_id=person_id) }}">
+
+                        <h3>{{work["original_title"]}}</h3>
+                        <img  class="poster" src='{{work["poster"]}}'/>
+                        <p>as</p>
+                        <p>{{ work['character'] }}</p>
+                        </a>
+                    </div>
+                    <div class="secondary">
+                        <h3>Released {{work["release_date"]}}</h3>
+                        <p>{{work["overview"]}}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="tv results">
+            <h2>TV</h2>
+            {% for work in works['tv'] %}
+            <div class="list-item">
+                    <div class="primary">
+                        <a href="{{ url_for('viewed', medium='tv', work_id=work['id'], person_id=person_id) }}">
+                        <h3>{{work["name"]}}</h3>
+                        <img class="poster" src='{{work["poster"]}}'/>
+                        <p>as</p>
+                        <p>{{ work['character'] }}</p>
+                        </a>
+                    </div>
+                    <div class="secondary">
+                        <h3>First Aired {{work["first_air_date"]}}</h3>
+                        <p>{{work["overview"]}}</p>
+                    </div>
+            </div>
+            {% endfor %}
+        </div>
     </div>
+{% include "footer.html" %}
 </body>

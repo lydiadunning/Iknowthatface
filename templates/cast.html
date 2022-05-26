@@ -1,12 +1,18 @@
 {% include "header.html" %}
 
 <body>
-    <div>
+    <h1>Who do you see?</h1>
+    <div class="cast-list">
     {% for cast_member in cast %}
-        <a href="{{ url_for('other_works', person_id=cast_member['id']) }}">
-            <img src="{{ cast_member['image_url'] }}"/>
-            <h3>{{ cast_member['name'] }} : {{ cast_member['character'] }}</h3>
-        </a>
+        <div class="cast-member">
+            <a href="{{ url_for('other_works', person_id=cast_member['id']) }}">
+                <img class="headshot" src="{{ cast_member['image_url'] }}"/>
+                <h3>{{ cast_member['name'] }}</h3>
+                <p>as</p>
+                <p>{{ cast_member['character'] }}</p>
+            </a>
+        </div>
     {% endfor %}
     </div>
+{% include "footer.html" %}
 </body>
