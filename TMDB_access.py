@@ -12,18 +12,15 @@ class TMDB:
         self.image_prefix = 'https://www.themoviedb.org/t/p/w220_and_h330_face'
         self.viewed = Viewed()
 
-    def send_api_request(self, api_request, params=None):
-        if params:
-            response = requests.get(api_request, params=params)
-        else:
-            response = requests.get(api_request)
+    def send_api_request(self, api_request, params=None, headers=None, json=None):
+        response = requests.get(f'https://api.themoviedb.org/3{api_request}', params=params, headers=headers, json=json)
         response.raise_for_status()
         return response.json()
 
 
     def list_works_by_name(self, work_name):
-        movie_api_request = f"https://api.themoviedb.org/3/search/movie?api_key={self.key}"
-        tv_api_request = f"https://api.themoviedb.org/3/search/tv?api_key={self.key}"
+        movie_api_request = f"/search/movie?api_key={self.key}"
+        tv_api_request = f"/search/tv?api_key={self.key}"
         params = {
             'query': work_name,
             'include_adult': 'false',
@@ -55,7 +52,7 @@ class TMDB:
     
     def list_actors_with_images(self, medium, work_id):
         # medium is a string, either 'tv' or 'movie
-        api_request = f"https://api.themoviedb.org/3/{medium}/{work_id}/credits?api_key={self.key}&language=en-US"
+        api_request = f"/{medium}/{work_id}/credits?api_key={self.key}&language=en-US"
         cast_list = self.send_api_request(api_request)['cast']
         return [{
             'id': cast_member['id'],
@@ -67,8 +64,8 @@ class TMDB:
     
     
     def list_actors_other_works(self, person_id):
-        movie_api_request = f"https://api.themoviedb.org/3/person/{person_id}/movie_credits?api_key={self.key}&language=en-US"
-        tv_api_request = f"https://api.themoviedb.org/3/person/{person_id}/tv_credits?api_key={self.key}&language=en-US"
+        movie_api_request = f"/person/{person_id}/movie_credits?api_key={self.key}&language=en-US"
+        tv_api_request = f"/person/{person_id}/tv_credits?api_key={self.key}&language=en-US"
         other_movies = self.send_api_request(movie_api_request)['cast']
         other_tv = self.send_api_request(tv_api_request)['cast']
         result = {}

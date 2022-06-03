@@ -9,7 +9,8 @@
             {% for work in works['movie'] %}
                 <div class="list-item">
                     <div class="primary">
-                        <a href="{{ url_for('viewed', medium='movie', work_id=work['id'], person_id=person_id) }}">
+<!--                        <a href="{{ url_for('viewed', medium='movie', work_id=work['id'], person_id=person_id) }}">-->
+                        <a href="https://www.themoviedb.org/movie/{{ work['id'] }}" target="_blank" rel="noopener noreferrer">
 
                         <h3>{{work["original_title"]}}</h3>
                         <img  class="poster" src='{{work["poster"]}}'/>
@@ -20,6 +21,9 @@
                     <div class="secondary">
                         <h3>Released {{work["release_date"]}}</h3>
                         <p>{{work["overview"]}}</p>
+                        <form action="{{ url_for('cast_list', medium='movie', work_id=work['id']) }}" method="post">
+                            <button type="submit">Cast List</button>
+                        </form>
                     </div>
                 </div>
             {% endfor %}
@@ -29,7 +33,8 @@
             {% for work in works['tv'] %}
             <div class="list-item">
                     <div class="primary">
-                        <a href="{{ url_for('viewed', medium='tv', work_id=work['id'], person_id=person_id) }}">
+<!--                        <a href="{{ url_for('viewed', medium='tv', work_id=work['id'], person_id=person_id) }}">-->
+                        <a href="https://www.themoviedb.org/tv/{{ work['id'] }}" target="_blank" rel="noopener noreferrer">
                         <h3>{{work["name"]}}</h3>
                         <img class="poster" src='{{work["poster"]}}'/>
                         <p>as</p>
@@ -39,6 +44,9 @@
                     <div class="secondary">
                         <h3>First Aired {{work["first_air_date"]}}</h3>
                         <p>{{work["overview"]}}</p>
+                        <form action="{{ url_for('cast_list', medium='tv', work_id=work['id']) }}" method="post">
+                            <button type="submit">Cast List</button>
+                        </form>
                     </div>
             </div>
             {% endfor %}

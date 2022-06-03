@@ -1,9 +1,12 @@
 {% include "header.html" %}
 
 <body>
+<!--    <div id="first-page">-->
     <form action="{{ url_for('work_input') }}" method="post">
-        <label><h1>What are you watching?</h1></label>
-        <input type="text" name="work" placeholder="Movie Show">
+        <label><div>What are you watching?</div></label>
+        <div id="input">
+        <input type="text" name="work" autofocus>
+        </div>
         <button type="submit">Submit</button>
     </form>
     {% with messages = get_flashed_messages() %}
@@ -15,6 +18,7 @@
         </ul>
       {% endif %}
     {% endwith %}
+    <div></div>
 {% include "footer.html" %}
-
+<!--</div>-->
 </body>
