@@ -2,8 +2,6 @@ from flask import Flask, render_template, redirect, url_for, request, flash
 from viewed import Viewed
 from TMDB_access import TMDB
 # from flask.ext.session import Session
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.orm import relationship
 
 
 
@@ -78,28 +76,6 @@ app.secret_key = '1818181818181818'
 
 works = TMDB()
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/test.db'
-db = SQLAlchemy(app)
-
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    # username = db.Column(db.String(80), unique=True, nullable=False)
-    # email = db.Column(db.String(120), unique=True, nullable=False)
-    TMDB_id = db.column(db.Integer, unique=True)
-    viewed_movies = relationship("ViewedMovie", back_populates="user")
-    viewed_tv = relationship("ViewedTV", back_populates="user")
-
-class ViewedMovie(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    movie_id = db.column(db.Integer, unique=True, nullable=False)
-    user = relationship("User", back_populates="viewed_movies")
-
-
-class ViewedTV(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    tv_id = db.column(db.Integer, unique=True, nullable=False)
-    user = relationship("User", back_populates="viewed_tv")
-
 
 
 @app.route('/')
@@ -112,6 +88,8 @@ def signin():
 
 @app.route('/work_input', methods=["GET", "POST"])
 def work_input():
+    # rename this url: '/watching/<search term>'
+    # use url encoding to make the search term work
     work_name = request.form["work"]
     works_found = works.list_works_by_name(work_name)
     print(works_found)
