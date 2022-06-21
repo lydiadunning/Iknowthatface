@@ -1,16 +1,14 @@
 import requests
 import os
 from dotenv import load_dotenv
-from viewed import Viewed
 
 load_dotenv()
 
 
 class TMDB:
     def __init__(self):
-        self.key = os.getenv('SECRET_KEY')
+        self.key = os.getenv('TMDB_SECRET_KEY')
         self.image_prefix = 'https://www.themoviedb.org/t/p/w220_and_h330_face'
-        self.viewed = Viewed()
 
     def send_api_request(self, api_request, params=None, headers=None, json=None):
         response = requests.get(f'https://api.themoviedb.org/3{api_request}', params=params, headers=headers, json=json)
@@ -30,24 +28,22 @@ class TMDB:
         tv_response = self.send_api_request(tv_api_request, params)["results"]
         result = {}
         if movie_response:
-            movies = [{
+            result['movie'] = [{
                 'id': movie['id'],
                 'original_title': movie['original_title'],
                 'poster': f"{self.image_prefix}{movie['poster_path']}",
                 'release_date': movie['release_date'],
                 'overview': movie['overview']
             } for movie in movie_response]
-            result['movie'] = self.viewed.prioritize('movie', movies)
 
         if tv_response:
-            tv_shows = [{
+            result['tv'] = [{
                 'id': tv['id'],
                 'name': tv['name'],
                 'poster': f"{self.image_prefix}{tv['poster_path']}",
                 'first_air_date': tv['first_air_date'],
                 'overview': tv['overview']
             } for tv in tv_response]
-            result['tv'] = self.viewed.prioritize('tv', tv_shows)
         return result
     
     def list_actors_with_images(self, medium, work_id):
@@ -70,7 +66,7 @@ class TMDB:
         other_tv = self.send_api_request(tv_api_request)['cast']
         result = {}
         if other_movies:
-            movies = [{
+            result['movie'] = [{
                 'id': movie['id'],
                 'original_title': movie['original_title'],
                 'character': movie['character'],
@@ -78,9 +74,8 @@ class TMDB:
                 'release_date': movie['release_date'],
                 'overview': movie['overview']
             } for movie in other_movies if 'release_date' in movie.keys()]
-            result['movie'] = self.viewed.prioritize('movie', movies)
         if other_tv:
-            tv_shows = [{
+            result['tv'] = [{
                 'id': tv['id'],
                 'name': tv['name'],
                 'character': tv['character'],
@@ -88,7 +83,6 @@ class TMDB:
                 'first_air_date': tv['first_air_date'],
                 'overview': tv['overview']
             } for tv in other_tv if 'first_air_date' in tv.keys()]
-            result['tv'] = self.viewed.prioritize('tv', tv_shows)
         print(result)
         return result
     
