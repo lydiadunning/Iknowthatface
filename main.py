@@ -24,8 +24,6 @@ load_dotenv()
 
 # Flask App
 app = Flask(__name__)
-# the following secret key is a placeholder to bypass an error.
-# Replace with a real secret key.
 app.secret_key = os.getenv('APP_SECRET_KEY')
 
 works = TMDB()
@@ -35,13 +33,10 @@ def index():
     return render_template("index.html", work_name=None)
 
 
-@app.route('/work_input', methods=["GET", "POST"])
-def work_input():
-    # rename this url: '/watching/<search term>'
-    # use url encoding to make the search term work
+@app.route('/watching', methods=["GET", "POST"])
+def watching():
     work_name = request.form["work"]
     works_found = works.list_works_by_name(work_name)
-    print(works_found)
     if works_found:
         return render_template("movie.html", works=works_found, work_name=None)
     else:
@@ -51,12 +46,17 @@ def work_input():
 
 @app.route('/cast_list/<medium>/<work_id>', methods=["GET", "POST"])
 def cast_list(medium, work_id):
+
     return render_template("cast.html", cast=works.list_actors_with_images(medium, work_id))
 
 
 @app.route('/other_works/<person_id>', methods=["GET", "POST"])
 def other_works(person_id):
     return render_template("other_works.html", works=works.list_actors_other_works(person_id), person_id=person_id)
+
+@app.route('/no_face')
+def no_face():
+    return render_template("no_face.html")
 
 
 if __name__ == '__main__':

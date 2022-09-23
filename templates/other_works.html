@@ -11,10 +11,20 @@
                     <div class="primary">
                         <a href="https://www.themoviedb.org/movie/{{ work['id'] }}" target="_blank" rel="noopener noreferrer">
 
-                        <h3>{{work["original_title"]}}</h3>
-                        <img  class="poster" src='{{work["poster"]}}'/>
+                        <h3>{{work["title"]}}</h3>
+                        {% if work["poster"] %}
+                        <div class="image_holder">
+                            <img class="poster" src='{{work["poster"]}}'
+                                alt="image not available"
+                            />
+                        </div>
+                        {% else %}
+                        {% include "no_face.html" %}
+                        {% endif %}
+                        {% if work['character'] %}
                         <p>as</p>
                         <p>{{ work['character'] }}</p>
+                        {% endif %}
                         </a>
                     </div>
                     <div class="secondary">
@@ -34,9 +44,19 @@
                     <div class="primary">
                         <a href="https://www.themoviedb.org/tv/{{ work['id'] }}" target="_blank" rel="noopener noreferrer">
                         <h3>{{work["name"]}}</h3>
-                        <img class="poster" src='{{work["poster"]}}'/>
+                        {% if work["poster"] %}
+                        <div class="image_holder">
+                            <img class="poster" src='{{ work["poster"] }}'
+                                alt="image not available"
+                            />
+                        </div>
+                        {% else %}
+                        {% include "no_face.html" %}
+                        {% endif %}
+                        {% if work['character'] %}
                         <p>as</p>
                         <p>{{ work['character'] }}</p>
+                        {% endif %}
                         </a>
                     </div>
                     <div class="secondary">

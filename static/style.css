@@ -9,6 +9,8 @@ body {
 
 }
 
+
+
 label {
     font-family: 'Nunito', Arial, sans-serif;
     border-radius: 0px 30px 30px 0px;
@@ -104,7 +106,7 @@ h2 {
 .list-item {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: stretch;
     margin: 2%;
 }
 
@@ -121,18 +123,20 @@ h2 {
 }
 
 .poster, .headshot {
-    height: 330px;
+    font-family: 'Gelasio', Georgia, serif;
+    font-size: 16px;
     width: 220px;
-    background-color: gainsboro;
+    height: 330px;
 }
 
-/*scrolling ultimately taken from https://blog.hubspot.com/website/hide-scrollbar-css*/
+.image_holder {
+    width: 220px; height: 330px; background-color: LightGray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .secondary {
-    /*height: 475.5px;*/
-    /*overflow-y: scroll;*/
-   /* scroll-behavior: smooth;*/
-    /*-ms-overflow-style: none; /* for Internet Explorer, Edge */
-    /*scrollbar-width: none; /* for Firefox */
     padding-right: 2%;
     padding-left: 2%
 }

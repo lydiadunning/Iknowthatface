@@ -6,7 +6,16 @@
     {% for cast_member in cast %}
         <div class="cast-member">
             <a href="{{ url_for('other_works', person_id=cast_member['id']) }}">
-                <img class="headshot" src="{{ cast_member['image_url'] }}"/>
+                {% if cast_member['actor_image_url'] %}
+                <div class="image_holder">
+                    <img class="headshot"
+                         src="{{ cast_member['actor_image_url'] }}"
+                         alt="image not available"
+                    />
+                </div>
+                {% else %}
+                {% include "no_face.html" %}
+                {% endif %}
                 <h3>{{ cast_member['name'] }}</h3>
                 <p>as</p>
                 <p>{{ cast_member['character'] }}</p>
