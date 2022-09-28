@@ -1,27 +1,29 @@
 {% include "header.html" %}
 
 <body>
-    <h1>Who do you see?</h1>
-    <div class="cast-list">
-    {% for cast_member in cast %}
-        <div class="cast-member">
-            <a href="{{ url_for('other_works', person_id=cast_member['id']) }}">
-                {% if cast_member['actor_image_url'] %}
-                <div class="image_holder">
-                    <img class="headshot"
-                         src="{{ cast_member['actor_image_url'] }}"
-                         alt="image not available"
-                    />
-                </div>
-                {% else %}
-                {% include "no_face.html" %}
-                {% endif %}
-                <h3>{{ cast_member['name'] }}</h3>
-                <p>as</p>
-                <p>{{ cast_member['character'] }}</p>
-            </a>
+    <div class="app">
+        <h1>Who do you see?</h1>
+        <div class="cast-list">
+        {% for cast_member in cast %}
+            <div class="cast-member">
+                <a href="{{ url_for('other_works', person_id=cast_member['id']) }}">
+                    {% if cast_member['actor_image_url'] %}
+                    <div class="image_holder">
+                        <img class="headshot"
+                             src="{{ cast_member['actor_image_url'] }}"
+                             alt="image not available"
+                        />
+                    </div>
+                    {% else %}
+                    {% include "no_face.html" %}
+                    {% endif %}
+                    <h3>{{ cast_member['name'] }}</h3>
+                    <p>as</p>
+                    <p>{{ cast_member['character'] }}</p>
+                </a>
+            </div>
+        {% endfor %}
         </div>
-    {% endfor %}
+        {% include "footer.html" %}
     </div>
-{% include "footer.html" %}
 </body>

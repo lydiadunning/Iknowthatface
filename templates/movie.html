@@ -1,64 +1,65 @@
 {% include "header.html" %}
 
 <body>
-    <h1>What are you watching?</h1>
-    <div class="columncontainer">
-        <div class="movie results">
-            <h2>Movies</h2>
-            {% for work in works['movie'] %}
-            <div class="list-item">
-                <a href="{{ url_for('cast_list', medium='movie', work_id=work['id']) }}">
-                <div class="primary">
-                    <h3>{{ work["title"] }}</h3>
-                    {% if work["poster"] %}
-                    <div class="image_holder">
-                        <img class="poster" src='{{ work["poster"] }}'
-                            alt="image not available"
-                        />
+    <div class="app">
+        <h1>What are you watching?</h1>
+        <div class="columncontainer">
+            <div class="movie results">
+                <h2>Movies</h2>
+                {% for work in works['movie'] %}
+                <div class="list-item">
+                    <a href="{{ url_for('cast_list', medium='movie', work_id=work['id']) }}">
+                    <div class="primary">
+                        <h3>{{ work["title"] }}</h3>
+                        {% if work["poster"] %}
+                        <div class="image_holder">
+                            <img class="poster" src='{{ work["poster"] }}'
+                                alt="image not available"
+                            />
+                        </div>
+                        {% else %}
+                        {% include "no_face.html" %}
+                        {% endif %}
                     </div>
-                    {% else %}
-                    {% include "no_face.html" %}
-                    {% endif %}
-                </div>
-                </a>
-                <div class="secondary">
-                    <h3>Released {{work["release_date"]}}</h3>
-                    <p>{{work["overview"]}}</p>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-        <div class="tv results">
-            <h2>TV</h2>
-            {% for work in works['tv'] %}
-            <div class="list-item">
-
-                <div class="primary">
-                    <a href="{{ url_for('cast_list', medium='tv', work_id=work['id']) }}">
-                    <h3>{{work["name"]}}</h3>
-                    {% if work["poster"] %}
-                    <div class="image_holder">
-                        <img class="poster" src='{{ work["poster"] }}' alt="image not available"
-                    />
-                    </div>
-                    {% else %}
-                    {% include "no_face.html" %}
-                    {% endif %}
                     </a>
+                    <div class="secondary">
+                        <h3>Released {{work["release_date"]}}</h3>
+                        <p>{{work["overview"]}}</p>
+                    </div>
                 </div>
-                <div class="secondary">
-                    {% if work["first_air_date"] %}
-                    <h3>First Aired {{work["first_air_date"]}}</h3>
-                    {% else %}
-                    <h3>First Air Date Unknown</h3>
-                    {% endif %}
-                    <p>{{work["overview"]}}</p>
-                </div>
-
+                {% endfor %}
             </div>
-            {% endfor %}
-        </div>
-    </div>
-{% include "footer.html" %}
+            <div class="tv results">
+                <h2>TV</h2>
+                {% for work in works['tv'] %}
+                <div class="list-item">
 
+                    <div class="primary">
+                        <a href="{{ url_for('cast_list', medium='tv', work_id=work['id']) }}">
+                        <h3>{{work["name"]}}</h3>
+                        {% if work["poster"] %}
+                        <div class="image_holder">
+                            <img class="poster" src='{{ work["poster"] }}' alt="image not available"
+                        />
+                        </div>
+                        {% else %}
+                        {% include "no_face.html" %}
+                        {% endif %}
+                        </a>
+                    </div>
+                    <div class="secondary">
+                        {% if work["first_air_date"] %}
+                        <h3>First Aired {{work["first_air_date"]}}</h3>
+                        {% else %}
+                        <h3>First Air Date Unknown</h3>
+                        {% endif %}
+                        <p>{{work["overview"]}}</p>
+                    </div>
+
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% include "footer.html" %}
+    </div>
 </body>

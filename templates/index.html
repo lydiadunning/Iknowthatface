@@ -1,24 +1,26 @@
 {% include "header.html" %}
 
 <body>
-    <div id="first-page">
-        <form action="{{ url_for('watching') }}" method="post">
-            <label><div>What are you watching?</div></label>
-            <div id="input">
-            <input type="text" name="work" maxlength="40" autofocus>
-            </div>
-            <button type="submit">Submit</button>
-        </form>
-        {% with messages = get_flashed_messages() %}
-          {% if messages %}
-            <ul class=flashes>
-            {% for message in messages %}
-              <li>{{ message }}</li>
-            {% endfor %}
-            </ul>
-          {% endif %}
-        {% endwith %}
+    <div class="app">
+        <div id="first-page">
+            <form action="{{ url_for('watching') }}" method="post">
+                <label><div>What are you watching?</div></label>
+                <div id="input">
+                <input type="text" name="work" maxlength="40" autofocus>
+                </div>
+                <button type="submit">Submit</button>
+            </form>
+            {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                <ul class=flashes>
+                {% for message in messages %}
+                  <li>{{ message }}</li>
+                {% endfor %}
+                </ul>
+              {% endif %}
+            {% endwith %}
+        </div>
+        {% include "footer.html" %}
     </div>
-{% include "footer.html" %}
 <!--</div>-->
 </body>

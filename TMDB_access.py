@@ -2,8 +2,6 @@ import requests
 import os
 from dotenv import load_dotenv
 
-from test import error_insertion
-
 load_dotenv()
 
 

@@ -2,73 +2,75 @@
 
 
 <body>
-    <h1>They were also in:</h1>
-    <div class="columncontainer">
-        <div class="movie results">
-            <h2>Movies</h2>
-            {% for work in works['movie'] %}
-                <div class="list-item">
-                    <div class="primary">
-                        <a href="https://www.themoviedb.org/movie/{{ work['id'] }}" target="_blank" rel="noopener noreferrer">
+    <div class="app">
+        <h1>They were also in:</h1>
+        <div class="columncontainer">
+            <div class="movie results">
+                <h2>Movies</h2>
+                {% for work in works['movie'] %}
+                    <div class="list-item">
+                        <div class="primary">
+                            <a href="https://www.themoviedb.org/movie/{{ work['id'] }}" target="_blank" rel="noopener noreferrer">
 
-                        <h3>{{work["title"]}}</h3>
-                        {% if work["poster"] %}
-                        <div class="image_holder">
-                            <img class="poster" src='{{work["poster"]}}'
-                                alt="image not available"
-                            />
+                            <h3>{{work["title"]}}</h3>
+                            {% if work["poster"] %}
+                            <div class="image_holder">
+                                <img class="poster" src='{{work["poster"]}}'
+                                    alt="image not available"
+                                />
+                            </div>
+                            {% else %}
+                            {% include "no_face.html" %}
+                            {% endif %}
+                            {% if work['character'] %}
+                            <p>as</p>
+                            <p>{{ work['character'] }}</p>
+                            {% endif %}
+                            </a>
                         </div>
-                        {% else %}
-                        {% include "no_face.html" %}
-                        {% endif %}
-                        {% if work['character'] %}
-                        <p>as</p>
-                        <p>{{ work['character'] }}</p>
-                        {% endif %}
-                        </a>
-                    </div>
-                    <div class="secondary">
-                        <h3>Released {{work["release_date"]}}</h3>
-                        <p>{{work["overview"]}}</p>
-                        <form action="{{ url_for('cast_list', medium='movie', work_id=work['id']) }}" method="post">
-                            <button type="submit">Cast List</button>
-                        </form>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-        <div class="tv results">
-            <h2>TV</h2>
-            {% for work in works['tv'] %}
-            <div class="list-item">
-                    <div class="primary">
-                        <a href="https://www.themoviedb.org/tv/{{ work['id'] }}" target="_blank" rel="noopener noreferrer">
-                        <h3>{{work["name"]}}</h3>
-                        {% if work["poster"] %}
-                        <div class="image_holder">
-                            <img class="poster" src='{{ work["poster"] }}'
-                                alt="image not available"
-                            />
+                        <div class="secondary">
+                            <h3>Released {{work["release_date"]}}</h3>
+                            <p>{{work["overview"]}}</p>
+                            <form action="{{ url_for('cast_list', medium='movie', work_id=work['id']) }}" method="post">
+                                <button type="submit">Cast List</button>
+                            </form>
                         </div>
-                        {% else %}
-                        {% include "no_face.html" %}
-                        {% endif %}
-                        {% if work['character'] %}
-                        <p>as</p>
-                        <p>{{ work['character'] }}</p>
-                        {% endif %}
-                        </a>
                     </div>
-                    <div class="secondary">
-                        <h3>First Aired {{work["first_air_date"]}}</h3>
-                        <p>{{work["overview"]}}</p>
-                        <form action="{{ url_for('cast_list', medium='tv', work_id=work['id']) }}" method="post">
-                            <button type="submit">Cast List</button>
-                        </form>
-                    </div>
+                {% endfor %}
             </div>
-            {% endfor %}
+            <div class="tv results">
+                <h2>TV</h2>
+                {% for work in works['tv'] %}
+                <div class="list-item">
+                        <div class="primary">
+                            <a href="https://www.themoviedb.org/tv/{{ work['id'] }}" target="_blank" rel="noopener noreferrer">
+                            <h3>{{work["name"]}}</h3>
+                            {% if work["poster"] %}
+                            <div class="image_holder">
+                                <img class="poster" src='{{ work["poster"] }}'
+                                    alt="image not available"
+                                />
+                            </div>
+                            {% else %}
+                            {% include "no_face.html" %}
+                            {% endif %}
+                            {% if work['character'] %}
+                            <p>as</p>
+                            <p>{{ work['character'] }}</p>
+                            {% endif %}
+                            </a>
+                        </div>
+                        <div class="secondary">
+                            <h3>First Aired {{work["first_air_date"]}}</h3>
+                            <p>{{work["overview"]}}</p>
+                            <form action="{{ url_for('cast_list', medium='tv', work_id=work['id']) }}" method="post">
+                                <button type="submit">Cast List</button>
+                            </form>
+                        </div>
+                </div>
+                {% endfor %}
+            </div>
         </div>
+        {% include "footer.html" %}
     </div>
-{% include "footer.html" %}
 </body>
