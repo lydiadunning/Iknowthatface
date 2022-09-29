@@ -15,8 +15,10 @@
                             <h3>{{work["title"]}}</h3>
                             {% if work["poster"] %}
                             <div class="image_holder">
-                                <img class="poster" src='{{work["poster"]}}'
-                                    alt="image not available"
+                                <img class="poster"
+                                     src='{{work["poster"]}}'
+                                     alt="image not available"
+                                     loading="lazy"
                                 />
                             </div>
                             {% else %}
@@ -47,8 +49,10 @@
                             <h3>{{work["name"]}}</h3>
                             {% if work["poster"] %}
                             <div class="image_holder">
-                                <img class="poster" src='{{ work["poster"] }}'
-                                    alt="image not available"
+                                <img class="poster"
+                                     src='{{ work["poster"] }}'
+                                     alt="image not available"
+                                     loading="lazy"
                                 />
                             </div>
                             {% else %}

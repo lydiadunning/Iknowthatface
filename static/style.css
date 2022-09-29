@@ -128,12 +128,14 @@ h2 {
 .poster, .headshot {
     font-family: 'Gelasio', Georgia, serif;
     font-size: 16px;
-    width: 220px;
-    height: 330px;
+    width: 100%;
+    margin: auto;
 }
 
 .image_holder {
-    width: 220px; height: 330px; background-color: LightGray;
+    width: 220px;
+    height: 330px;
+    background-color: LightGray;
     display: flex;
     align-items: center;
     justify-content: center;
