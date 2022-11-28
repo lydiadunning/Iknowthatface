@@ -1,0 +1,11 @@
+To handle tv series better:
+
+Start with a show name
+- See if it's possible to discover a full list of actors for a series. This would be preferable.
+for each series, identify each episode that actor appeared in
+for each episode, add any actor that isn't already on the results list to the results list.
+Display the full list
+
+Alternately, provide a truncated list followed by a set of options.
+Know the episode's name or number? Show results for just one episode.
+Know the season? Show results for just one season.
